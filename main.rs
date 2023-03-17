@@ -1,18 +1,23 @@
+#![allow(dead_code)]
+
 use std::vec;
 
 fn main() {
-    print!("number of steps: {:?} \n", number_of_steps(14));
-    print!("running sum: {:?}\n", running_sum(vec![3, 1, 2, 10, 1]));
-    print!("max ones: {:?}\n", max_consec_ones(vec![1, 0, 1, 1, 0, 1]));
-    print!(
-        "square and sort: {:?}\n",
+    println!("number of steps: {:?} ", number_of_steps(14));
+    println!("running sum: {:?}", running_sum(vec![3, 1, 2, 10, 1]));
+    println!("max ones: {:?}", max_consec_ones(vec![1, 0, 1, 1, 0, 1]));
+    println!(
+        "square and sort: {:?}",
         square_and_sort(vec![-7, -3, 2, 3, 11])
     );
-
-    // Input: nums = [3,1,2,10,1]
-    // Output: [3,4,6,16,17]
+    println!(
+        "dup zeroes: {:?}",
+        duplicate_zeros(&mut vec![1, 0, 2, 3, 0, 4, 5, 0])
+    );
 }
 
+// Input: nums = [3,1,2,10,1]
+// Output: [3,4,6,16,17]
 fn items_with_even_digits(input: Vec<i32>) -> i32 {
     input
         .iter()
@@ -22,14 +27,6 @@ fn items_with_even_digits(input: Vec<i32>) -> i32 {
 
 // Input: nums = [-4,-1,0,3,10]
 // Output: [0,1,9,16,100]
-
-// Input:
-// [-7,-3,2,3,11]
-// Output:
-// [0,9,9,49,121]
-// Expected:
-// [4,9,9,49,121]
-
 fn square_and_sort(input: Vec<i32>) -> Vec<i32> {
     let length = input.len();
     let mut left = 0;
@@ -76,20 +73,37 @@ fn max_consec_ones(input: Vec<i32>) -> i32 {
     res.max(temp)
 }
 
-// Input: s = "babad"
-// Output: "bab"
-// Explanation: "aba" is also a valid answer.
-fn longest_palindrome(s: String) -> String {
-    let mut left = 0;
-    let mut right = s.len() - 1;
+// Input: arr = [1,0,2,3,0,4,5,0]
+// Output: [1,0,0,2,3,0,0,4]
+// Explanation: After calling your function, the input array is modified to: [1,0,0,2,3,0,0,4]
+fn duplicate_zeros(arr: &mut Vec<i32>) -> Vec<i32> {
+    let max_length = arr.len() - 1;
+    let mut cursor = 0;
 
-    while left < right {
-        if s[left..] == s[..right] {
-            todo!()
+    while cursor <= max_length {
+        if arr[cursor] == 0 {
+            arr.insert(cursor, 0);
+            cursor += 1;
         }
+        cursor += 1;
     }
+    arr[..=max_length].to_vec()
+}
 
-    todo!()
+// TODO do it properly with pointers
+// Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+// Output: [1,2,2,3,5,6]
+// Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
+// The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
+fn merge_sorted_array(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) -> Vec<i32> {
+    let mut a = nums1[..m as usize].to_vec();
+    let mut b = nums2[..n as usize].to_vec();
+
+    a.append(&mut b);
+
+    a.sort();
+
+    a
 }
 
 fn running_sum(input: Vec<i32>) -> Vec<i32> {
