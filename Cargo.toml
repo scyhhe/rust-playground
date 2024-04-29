@@ -9,4 +9,4 @@ edition = "2021"
 
 [[bin]]
 name = "practice-stuff"
-path = "main.rs"
+path = "src/main.rs"
